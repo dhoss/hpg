@@ -1,0 +1,17 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
+  profiles:
+    active: local
+  mvc:
+    static-path-pattern: "/static/**"
+    view:
+      prefix: WEB-INF/jsp/
+      suffix: .jsp
+logging:
+  level:
+    root: "warn"
+    org.springframework.web: "debug"
+    in.stonecolddev.hpg: "debug"

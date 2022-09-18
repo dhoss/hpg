@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      jdbc-url: >
+        jdbc:postgresql://localhost:5432/hpg
+      pool-name: hpg-pool
+      username: hpg
+      password: hpg
+logging:
+  level:
+    in.stonecolddev: DEBUG
+    org.springframework.jdbc.core: TRACE

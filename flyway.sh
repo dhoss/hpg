@@ -1,0 +1,1 @@
+flyway -configFiles=src/main/resources/flyway.conf $1
