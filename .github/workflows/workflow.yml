@@ -1,4 +1,4 @@
-name: blood ocean
+name: hpg
 on: [push]
 jobs:
   run:

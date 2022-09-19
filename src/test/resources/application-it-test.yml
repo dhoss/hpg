@@ -1,7 +1,7 @@
 spring:
   config:
     activate:
-      on-profile: local
+      on-profile: it-test
   datasource:
     driver-class-name: org.postgresql.Driver
     hikari:
