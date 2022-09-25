@@ -1,6 +1,6 @@
 # HPG
 
-[![codecov](https://codecov.io/gh/dhoss/hpg/branch/main/graph/badge.svg?token=uAkVRjiI3C)](https://codecov.io/gh/dhoss/hpg)
+[![codecov](https://codecov.io/gh/dhoss/hpg/branch/master/graph/badge.svg?token=uAkVRjiI3C)](https://codecov.io/gh/dhoss/hpg)
 
 A light feed aggregator with the eventual goal of replacing [Pocket](https://getpocket.com/).
 
