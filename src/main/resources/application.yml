@@ -7,11 +7,29 @@ spring:
     active: local
   mvc:
     static-path-pattern: "/static/**"
-    view:
-      prefix: WEB-INF/jsp/
-      suffix: .jsp
+
 logging:
   level:
     root: "warn"
     org.springframework.web: "debug"
     in.stonecolddev.hpg: "debug"
+
+pebble:
+  suffix: .html
+  cache: true
+
+feeds:
+  cacheExpire: PT1h # default to 1 hour
+  feedSources:
+    -
+      name: hackernews
+      uri: https://news.ycombinator.com/rss
+      type: rss
+    -
+      name: jooq
+      uri: http://blog.jooq.org/feed/
+      type: rss
+    -
+      name: joda
+      uri: http://blog.joda.org/feeds/posts/default
+      type: rss
