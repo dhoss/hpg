@@ -1,5 +1,6 @@
 package in.stonecolddev.hpg.configuration;
 
+import io.soabase.recordbuilder.core.RecordBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.context.annotation.Profile;

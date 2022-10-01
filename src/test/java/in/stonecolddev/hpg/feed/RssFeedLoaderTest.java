@@ -37,19 +37,20 @@ public class RssFeedLoaderTest {
   public void loadFeed() throws IOException {
     var url = "https://stonecolddev.in/blog/url";
     var now = OffsetDateTime.now(clock);
-    var feed = new Feed(
-        "test feed",
-        List.of(
-            new FeedItem(
-                0,
-                "test title",
-                URI.create(url),
-                "test description",
-                now,
-                now
-            )
-        )
-    );
+    var feed =
+        FeedBuilder.builder()
+                   .name("test feed")
+                   .items(
+                       List.of(
+                           FeedItemBuilder.builder()
+                                          .id(0)
+                                          .title("test title")
+                                          .link(URI.create(url))
+                                          .description("test description")
+                                          .indexed(now)
+                                          .published(now)
+                                          .build()))
+                   .build();
 
     var feedItem = feed.items().get(0);
 

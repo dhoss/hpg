@@ -16,9 +16,16 @@
     <description>newsfeed aggregator</description>
     <properties>
         <java.version>18</java.version>
+        <record-builder.version>34</record-builder.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.soabase.record-builder</groupId>
+            <artifactId>record-builder-processor</artifactId>
+            <version>${record-builder.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>io.pebbletemplates</groupId>
             <artifactId>pebble-spring-boot-starter</artifactId>
@@ -163,9 +170,9 @@
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
-                            <groupId>com.google.auto.value</groupId>
-                            <artifactId>auto-value</artifactId>
-                            <version>1.9</version>
+                            <groupId>io.soabase.record-builder</groupId>
+                            <artifactId>record-builder-processor</artifactId>
+                            <version>${record-builder.version}</version>
                         </path>
                     </annotationProcessorPaths>
                     <source>18</source>
