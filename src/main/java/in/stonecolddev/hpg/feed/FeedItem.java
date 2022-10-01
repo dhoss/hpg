@@ -1,9 +1,11 @@
 package in.stonecolddev.hpg.feed;
 
+import io.soabase.recordbuilder.core.RecordBuilder;
+
 import java.net.URI;
 import java.time.OffsetDateTime;
 
-// TODO: replace with AutoValue
+@RecordBuilder
 public record FeedItem(
     int id,
     String title,

@@ -44,14 +44,14 @@ public class DefaultFeedCacheTest {
     var feed = new Feed(
         "test feed",
         List.of(
-            new FeedItem(
-                1,
-                "test title",
-                URI.create("https://stonecolddev.in/blog/url"),
-                "test description",
-                OffsetDateTime.now(),
-                OffsetDateTime.now()
-            )
+            FeedItemBuilder.builder()
+                           .id(1)
+                .title("test title")
+                .description("test description")
+                .link(URI.create("https://stonecolddev.in/blog/url"))
+                .indexed(OffsetDateTime.now())
+                .published(OffsetDateTime.now())
+                .build()
         )
     );
 
