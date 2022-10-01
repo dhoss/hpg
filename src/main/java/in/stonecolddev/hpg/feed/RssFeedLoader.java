@@ -1,6 +1,5 @@
 package in.stonecolddev.hpg.feed;
 
-import com.apptasticsoftware.rssreader.Item;
 import com.apptasticsoftware.rssreader.RssReader;
 import in.stonecolddev.hpg.configuration.FeedSource;
 import org.slf4j.Logger;
@@ -11,9 +10,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.time.Clock;
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-// TODO: tests
 @Component
 public class RssFeedLoader implements FeedLoader {
 
@@ -24,8 +23,8 @@ public class RssFeedLoader implements FeedLoader {
   private final RssReader rssReader;
 
   public RssFeedLoader(
-      RssReader rssReader,
-      Clock clock
+    RssReader rssReader,
+    Clock clock
   ) {
     this.rssReader = rssReader;
     this.clock = clock;
@@ -33,34 +32,34 @@ public class RssFeedLoader implements FeedLoader {
 
   // TODO: ideally this will be enqueued and then called by a job executor
   public Feed loadFeed(FeedSource feedSource) throws IOException {
-    return new Feed(
-        feedSource.name(),
-        rssReader.read(feedSource.uri().toString()).map(
-            i ->
-              new FeedItem(
-                  0,
-                  i.getTitle().orElseGet(() -> "no title???"),
-                  URI.create(i.getLink()
-                              .orElseGet(() -> "https://stonecolddev.in")),
-                  // TODO: enable option to detect URL
-                  i.getDescription().orElseGet(() -> "no description"),
-                  dateHandler(i),
-                  OffsetDateTime.now(clock)
-              )
-        ).collect(Collectors.toList())
-    );
+    log.info("Loading feed {}", feedSource.name());
+    return FeedBuilder.builder()
+             .name(feedSource.name())
+             .items(
+               rssReader.read(feedSource.uri().toString())
+                 .map(
+                   i ->
+                     FeedItemBuilder.builder()
+                       .title(i.getTitle().orElseThrow(
+                         () -> new IllegalArgumentException("No title provided")))
+                       .link(URI.create(i.getLink().orElseThrow(
+                         () -> new IllegalArgumentException("No link provided"))))
+                       /* TODO: enable option to detect URL */
+                       .description(
+                         i.getDescription().orElse("(no description provided)"))
+                       .indexed(OffsetDateTime.now(clock))
+                       .published(safeDateTime(i.getPubDate()))
+                       .build())
+                 .collect(Collectors.toList()))
+             .build();
   }
 
-  // TODO: this date is breaking this: 2021-09-25T01:55:00.001+01:00
-  private OffsetDateTime dateHandler(Item item) {
+  private Optional<OffsetDateTime> safeDateTime(Optional<String> dateTimeString) {
     try {
-      return OffsetDateTime.parse(
-          item.getPubDate()
-              .orElseThrow(() -> new RuntimeException("No pubDate provided"))
-      );
-    } catch (java.time.format.DateTimeParseException | java.lang.IllegalArgumentException e) {
-      log.error("Error handling datetime: {}", e.getMessage());
-      return OffsetDateTime.now(clock);
+      return dateTimeString.map(OffsetDateTime::parse);
+    } catch (java.time.format.DateTimeParseException e) {
+      log.error("Unable to parse String to ZoneDateTime: {}", e.getMessage());
+      return Optional.empty();
     }
   }
 }
