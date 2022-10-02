@@ -11,8 +11,8 @@ public interface FeedCache {
 
   Map<FeedSource, Feed> all();
 
-  default Feed loadFeed(FeedSource feedSource) throws IOException {
-    return feedLoaderRegistry().load(feedSource.type())
-                               .loadFeed(feedSource); // TODO: I think we want an additional call here to a persist() method or something
+  default Feed populate(FeedSource feedSource) throws IOException {
+    return feedLoaderRegistry().get(feedSource.type())
+                               .load(feedSource); // TODO: I think we want an additional call here to a persist() method or something
   }
 }

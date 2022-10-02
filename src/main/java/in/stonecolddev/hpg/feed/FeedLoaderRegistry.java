@@ -17,7 +17,7 @@ public class FeedLoaderRegistry {
     this.feedLoaders = feedLoaders;
   }
 
-  public FeedLoader load(String feedLoaderName) {
+  public FeedLoader get(String feedLoaderName) {
     log.info("Loading feed handler {}", feedLoaderName);
     return feedLoaders.get("%sFeedLoader".formatted(feedLoaderName));
   }

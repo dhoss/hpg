@@ -67,7 +67,7 @@ public class RssFeedLoaderTest {
 
     var rssFeedLoader = new RssFeedLoader(rssReader, clock);
 
-    assertEquals(feed, rssFeedLoader.loadFeed(feedSource));
+    assertEquals(feed, rssFeedLoader.load(feedSource));
   }
 
   @Test
@@ -86,6 +86,6 @@ public class RssFeedLoaderTest {
         List.of(
           feedItem.withPublished(
             Optional.empty()))),
-      rssFeedLoader.loadFeed(feedSource));
+      rssFeedLoader.load(feedSource));
   }
 }

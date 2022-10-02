@@ -28,7 +28,7 @@ public class RssFeedLoader implements FeedLoader {
   }
 
   // TODO: ideally this will be enqueued and then called by a job executor
-  public Feed loadFeed(FeedSource feedSource) throws IOException {
+  public Feed load(FeedSource feedSource) throws IOException {
     log.info("Loading feed {}", feedSource.name());
     return FeedBuilder.builder()
              .name(feedSource.name())
@@ -50,6 +50,10 @@ public class RssFeedLoader implements FeedLoader {
                        .build())
                  .collect(Collectors.toList()))
              .build();
+  }
+
+  public void save(Feed feed) {
+
   }
 
   private Optional<OffsetDateTime> safeDateTime(Optional<String> dateTimeString) {

@@ -30,7 +30,7 @@ public class DefaultFeedCache implements FeedCache {
     //       a scheduled job should refresh the db at an interval so HTTP calls are minimal
     this.cache = Caffeine.newBuilder()
                          .expireAfterAccess(feedConfiguration.cacheExpire())
-                         .build(this::loadFeed);
+                         .build(this::populate);
   }
 
   public FeedLoaderRegistry feedLoaderRegistry() {

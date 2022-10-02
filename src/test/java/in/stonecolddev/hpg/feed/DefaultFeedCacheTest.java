@@ -57,11 +57,11 @@ public class DefaultFeedCacheTest {
 
     var feedSource = feedConfiguration.feedSources().get(0);
 
-    when(feedLoaderRegistry.load("rss")).thenReturn(rssFeedLoader);
-    when(rssFeedLoader.loadFeed(feedConfiguration.feedSources().get(0))).thenReturn(feed);
+    when(feedLoaderRegistry.get("rss")).thenReturn(rssFeedLoader);
+    when(rssFeedLoader.load(feedConfiguration.feedSources().get(0))).thenReturn(feed);
 
     var feedCache = new DefaultFeedCache(feedLoaderRegistry, feedConfiguration);
     assertEquals(Map.of(feedSource, feed), feedCache.all());
-    assertEquals(feed, feedCache.loadFeed(feedSource));
+    assertEquals(feed, feedCache.populate(feedSource));
   }
 }
