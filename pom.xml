@@ -21,11 +21,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jooq</artifactId>
-            <version>2.7.4</version>
-        </dependency>
-        <dependency>
             <groupId>io.soabase.record-builder</groupId>
             <artifactId>record-builder-processor</artifactId>
             <version>${record-builder.version}</version>
@@ -51,12 +46,6 @@
             <artifactId>org.jacoco.agent</artifactId>
             <version>0.8.8</version>
             <classifier>runtime</classifier>
-        </dependency>
-		<dependency>
-            <groupId>com.google.auto.value</groupId>
-            <artifactId>auto-value-annotations</artifactId>
-            <version>1.9</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -13,5 +13,6 @@ public record FeedItem(
     URI link,
     String description,
     Optional<OffsetDateTime> published,
-    OffsetDateTime indexed
+    OffsetDateTime createdOn,
+    OffsetDateTime updatedOn
 ) implements FeedItemBuilder.With {}

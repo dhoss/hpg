@@ -37,7 +37,7 @@ public class DefaultFeedCache implements FeedCache {
     return this.feedLoaderRegistry;
   }
 
-  public Map<FeedSource, Feed> list() {
+  public Map<FeedSource, Feed> all() {
     // TODO: limit/sort by, default to sort by date desc
     //        add configuration to allow for filtering anything older than a certain date
     return cache.getAll(feedConfiguration.feedSources());

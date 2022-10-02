@@ -22,10 +22,7 @@ public class RssFeedLoader implements FeedLoader {
 
   private final RssReader rssReader;
 
-  public RssFeedLoader(
-    RssReader rssReader,
-    Clock clock
-  ) {
+  public RssFeedLoader(RssReader rssReader, Clock clock) {
     this.rssReader = rssReader;
     this.clock = clock;
   }
@@ -35,6 +32,7 @@ public class RssFeedLoader implements FeedLoader {
     log.info("Loading feed {}", feedSource.name());
     return FeedBuilder.builder()
              .name(feedSource.name())
+             .updatedOn(OffsetDateTime.now(clock))
              .items(
                rssReader.read(feedSource.uri().toString())
                  .map(
@@ -47,7 +45,7 @@ public class RssFeedLoader implements FeedLoader {
                        /* TODO: enable option to detect URL */
                        .description(
                          i.getDescription().orElse("(no description provided)"))
-                       .indexed(OffsetDateTime.now(clock))
+                       .createdOn(OffsetDateTime.now(clock))
                        .published(safeDateTime(i.getPubDate()))
                        .build())
                  .collect(Collectors.toList()))

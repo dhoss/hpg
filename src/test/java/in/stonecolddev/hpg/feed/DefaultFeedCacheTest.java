@@ -42,19 +42,18 @@ public class DefaultFeedCacheTest {
 
   @Test
   public void list() throws IOException {
-    var feed = new Feed(
-        "test feed",
-        List.of(
-            FeedItemBuilder.builder()
-                           .id(1)
-                .title("test title")
-                .description("test description")
-                .link(URI.create("https://stonecolddev.in/blog/url"))
-                .indexed(OffsetDateTime.now())
-                .published(Optional.of(OffsetDateTime.now()))
-                .build()
-        )
-    );
+    var feed = FeedBuilder.builder()
+                 .name("test feed")
+                 .items(
+                   List.of(
+                     FeedItemBuilder.builder()
+                       .id(1)
+                       .title("test title")
+                       .description("test description")
+                       .link(URI.create("https://stonecolddev.in/blog/url"))
+                       .published(Optional.of(OffsetDateTime.now()))
+                       .build()))
+                 .build();
 
     var feedSource = feedConfiguration.feedSources().get(0);
 
@@ -62,7 +61,7 @@ public class DefaultFeedCacheTest {
     when(rssFeedLoader.loadFeed(feedConfiguration.feedSources().get(0))).thenReturn(feed);
 
     var feedCache = new DefaultFeedCache(feedLoaderRegistry, feedConfiguration);
-    assertEquals(Map.of(feedSource, feed), feedCache.list());
+    assertEquals(Map.of(feedSource, feed), feedCache.all());
     assertEquals(feed, feedCache.loadFeed(feedSource));
   }
 }

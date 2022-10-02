@@ -44,7 +44,6 @@ public class RssFeedLoaderTest {
                                    .title("test title")
                                    .link(URI.create(url))
                                    .description("test description")
-                                   .indexed(now)
                                    .published(Optional.of(now))
                                    .build();
   private final Feed feed = FeedBuilder.builder()

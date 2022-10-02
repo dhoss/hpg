@@ -9,7 +9,7 @@ public interface FeedCache {
 
   FeedLoaderRegistry feedLoaderRegistry();
 
-  Map<FeedSource, Feed> list();
+  Map<FeedSource, Feed> all();
 
   default Feed loadFeed(FeedSource feedSource) throws IOException {
     return feedLoaderRegistry().load(feedSource.type())

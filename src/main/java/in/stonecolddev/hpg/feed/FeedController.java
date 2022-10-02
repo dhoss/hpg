@@ -17,7 +17,7 @@ public class FeedController {
   @GetMapping("/")
   public String index(Model model) {
     // TODO: caching headers
-    model.addAttribute("feeds", feedCache.list());
+    model.addAttribute("feeds", feedCache.all());
     return "index";
   }
 
