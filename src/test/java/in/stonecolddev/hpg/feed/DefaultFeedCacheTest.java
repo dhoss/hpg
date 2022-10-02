@@ -15,6 +15,7 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,7 +51,7 @@ public class DefaultFeedCacheTest {
                 .description("test description")
                 .link(URI.create("https://stonecolddev.in/blog/url"))
                 .indexed(OffsetDateTime.now())
-                .published(OffsetDateTime.now())
+                .published(Optional.of(OffsetDateTime.now()))
                 .build()
         )
     );

@@ -13,7 +13,10 @@
                 {{ feed.key.name }}
                 <ul>
                     {% for feedItem in feed.value.items %}
-                    <li><a href="{{feedItem.uri}}">{{ feedItem.title }}</a> - {{ feedItem.description }}</li>
+                    <li>
+                        <a href="{{feedItem.link}}">{{ feedItem.title }}</a> - published on {{feedItem.published.orElse("(no date available)")}}
+                        <ul><li>{{ feedItem.description }}</li></ul>
+                    </li>
                     {% endfor %}
                 </ul>
             </li>

@@ -4,6 +4,7 @@ import io.soabase.recordbuilder.core.RecordBuilder;
 
 import java.net.URI;
 import java.time.OffsetDateTime;
+import java.util.Optional;
 
 @RecordBuilder
 public record FeedItem(
@@ -11,6 +12,6 @@ public record FeedItem(
     String title,
     URI link,
     String description,
-    OffsetDateTime published,
+    Optional<OffsetDateTime> published,
     OffsetDateTime indexed
-) {}
+) implements FeedItemBuilder.With {}

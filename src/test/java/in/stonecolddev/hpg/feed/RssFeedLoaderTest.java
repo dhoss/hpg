@@ -17,7 +17,7 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,45 +33,60 @@ public class RssFeedLoaderTest {
 
   private final Clock clock = Clock.fixed(Instant.now(), ZoneId.of("UTC"));
 
+  private final OffsetDateTime now = OffsetDateTime.now(clock);
+
+  private final String url = "https://stonecolddev.in/blog/url";
+
+  private final Item readerItem = new Item();
+
+  private final FeedItem feedItem = FeedItemBuilder.builder()
+                                   .id(0)
+                                   .title("test title")
+                                   .link(URI.create(url))
+                                   .description("test description")
+                                   .indexed(now)
+                                   .published(Optional.of(now))
+                                   .build();
+  private final Feed feed = FeedBuilder.builder()
+                              .name("test feed")
+                              .items(List.of(feedItem))
+                              .build();
+
+
+  private final FeedSource feedSource = new FeedSource("test feed", URI.create(url), "rss");
+
   @Test
   public void loadFeed() throws IOException {
-    var url = "https://stonecolddev.in/blog/url";
-    var now = OffsetDateTime.now(clock);
-    var feed =
-        FeedBuilder.builder()
-                   .name("test feed")
-                   .items(
-                       List.of(
-                           FeedItemBuilder.builder()
-                                          .id(0)
-                                          .title("test title")
-                                          .link(URI.create(url))
-                                          .description("test description")
-                                          .indexed(now)
-                                          .published(now)
-                                          .build()))
-                   .build();
-
-    var feedItem = feed.items().get(0);
 
     // why do people still define classes like this?
-    var readerItem = new Item();
     readerItem.setTitle(feedItem.title());
     readerItem.setDescription(feedItem.description());
     readerItem.setLink(feedItem.link().toString());
     readerItem.setPubDate(now.toString());
 
-
-    when(rssReader.read(url))
-        .thenReturn(Stream.of(readerItem));
+    when(rssReader.read(url)).thenReturn(Stream.of(readerItem));
 
     var rssFeedLoader = new RssFeedLoader(rssReader, clock);
 
+    assertEquals(feed, rssFeedLoader.loadFeed(feedSource));
+  }
+
+  @Test
+  public void dateTimeParsingExceptions() throws IOException {
+
+    readerItem.setTitle(feedItem.title());
+    readerItem.setDescription(feedItem.description());
+    readerItem.setLink(feedItem.link().toString());
+    readerItem.setPubDate("Sat, 1 Oct 2022 19:00:51 +0000");
+
+    when(rssReader.read(url)).thenReturn(Stream.of(readerItem));
+
+    var rssFeedLoader = new RssFeedLoader(rssReader, clock);
     assertEquals(
-        feed,
-        rssFeedLoader.loadFeed(
-            new FeedSource("test feed", URI.create(url), "rss")
-        )
-    );
+      feed.withItems(
+        List.of(
+          feedItem.withPublished(
+            Optional.empty()))),
+      rssFeedLoader.loadFeed(feedSource));
   }
 }

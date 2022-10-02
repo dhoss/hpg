@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-// TODO: tests
 @Component
 public class FeedLoaderRegistry {
   private final Logger log = LoggerFactory.getLogger(FeedLoaderRegistry.class);
@@ -22,5 +21,4 @@ public class FeedLoaderRegistry {
     log.info("Loading feed handler {}", feedLoaderName);
     return feedLoaders.get("%sFeedLoader".formatted(feedLoaderName));
   }
-
 }
