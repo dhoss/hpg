@@ -1,3 +1,8 @@
 package in.stonecolddev.hpg.feed;
 
-public interface FeedRepository {}
+import org.springframework.stereotype.Repository;
+
+public interface FeedRepository {
+
+  Feed save(Feed feed);
+}

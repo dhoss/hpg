@@ -13,7 +13,7 @@ public class FeedService {
   }
 
   public Feed save(Feed feed) {
-    return FeedBuilder.builder().build();//feedRepository.save(feed);
+    return feedRepository.save(feed);
   }
 
 }
