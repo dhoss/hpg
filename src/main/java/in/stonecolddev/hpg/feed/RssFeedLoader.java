@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
+import java.sql.SQLException;
 import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -54,7 +55,7 @@ public class RssFeedLoader implements FeedLoader {
              .build();
   }
 
-  public Feed save(Feed feed) {
+  public Feed save(Feed feed) throws SQLException {
     return feedService.save(feed);
   }
 

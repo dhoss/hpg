@@ -21,6 +21,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>ST4</artifactId>
+            <version>4.3.4</version>
+        </dependency>
+        <dependency>
             <groupId>io.soabase.record-builder</groupId>
             <artifactId>record-builder-processor</artifactId>
             <version>${record-builder.version}</version>

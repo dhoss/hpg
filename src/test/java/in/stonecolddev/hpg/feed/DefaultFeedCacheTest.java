@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
 import java.net.URI;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -38,9 +39,11 @@ public class DefaultFeedCacheTest {
 
   private final FeedLoader feedLoader = mock(FeedLoader.class);
 
+  private final FeedService feedService = mock(FeedService.class);
+
 
   @Test
-  public void all() throws IOException {
+  public void all() throws IOException, SQLException {
 
     var feed = FeedBuilder.builder()
                  .name("test feed")
@@ -61,7 +64,7 @@ public class DefaultFeedCacheTest {
     when(feedLoader.retrieve(feedConfiguration.feedSources().get(0))).thenReturn(feed);
     when(feedLoader.load(feedSource)).thenReturn(feed);
 
-    var feedCache = new DefaultFeedCache(feedLoaderRegistry, feedConfiguration);
+    var feedCache = new DefaultFeedCache(feedLoaderRegistry, feedConfiguration, feedService);
     assertEquals(Map.of(feedSource, feed), feedCache.all());
     assertEquals(feed, feedCache.populate(feedSource));
   }

@@ -3,6 +3,9 @@ package in.stonecolddev.hpg.feed;
 
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
+import java.util.Optional;
+
 @Component
 public class FeedService {
 
@@ -12,8 +15,12 @@ public class FeedService {
     this.feedRepository = feedRepository;
   }
 
-  public Feed save(Feed feed) {
+  public Feed save(Feed feed) throws SQLException {
     return feedRepository.save(feed);
+  }
+
+  public Optional<Feed> find(String name) {
+    return feedRepository.find(name);
   }
 
 }

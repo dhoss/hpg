@@ -1,12 +1,16 @@
 package in.stonecolddev.hpg.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
+import in.stonecolddev.hpg.feed.Feed;
 import in.stonecolddev.hpg.feed.Repository;
+import org.simpleflatmapper.jdbc.spring.JdbcTemplateMapperFactory;
+import org.simpleflatmapper.jdbc.spring.SqlParameterSourceFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -18,6 +22,27 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 @EnableJdbcRepositories(basePackageClasses = { Repository.class })
 @Profile({"local", "unit-test", "it-test", "dev", "prod"})
 public class Database  {
+
+
+    @Bean
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
+        return new NamedParameterJdbcTemplate(dataSource());
+    }
+
+    @Bean
+    public SqlParameterSourceFactory<Feed> parameterSourceFactory() {
+        return JdbcTemplateMapperFactory
+          .newInstance()
+          .newSqlParameterSourceFactory(Feed.class);
+    }
+
+    @Bean
+    public RowMapper<Feed> feedRowMapper() {
+        return JdbcTemplateMapperFactory
+                 .newInstance()
+                 .addKeys("id")
+                 .newRowMapper(Feed.class);
+    }
 
     @Bean
     public NamedParameterJdbcOperations operations() {
