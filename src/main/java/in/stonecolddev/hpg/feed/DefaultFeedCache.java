@@ -2,7 +2,6 @@ package in.stonecolddev.hpg.feed;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
-import in.stonecolddev.hpg.configuration.FeedSource;
 import in.stonecolddev.hpg.configuration.Feeds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +39,7 @@ public class DefaultFeedCache implements FeedCache {
   public Map<FeedSource, Feed> all() {
     // TODO: limit/sort by, default to sort by date desc
     //        add configuration to allow for filtering anything older than a certain date
+    log.debug("***** FEED SOURCES {}", feedConfiguration.feedSources());
     return cache.getAll(feedConfiguration.feedSources());
   }
 }

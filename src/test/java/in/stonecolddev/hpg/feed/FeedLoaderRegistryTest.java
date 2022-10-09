@@ -1,6 +1,5 @@
 package in.stonecolddev.hpg.feed;
 
-import in.stonecolddev.hpg.configuration.FeedSource;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,15 +18,16 @@ public class FeedLoaderRegistryTest {
 
   @Test
   public void load() {
+    var feed = FeedBuilder.builder().name("test feed").items(List.of()).build();
     var feedLoader = new FeedLoader() {
       @Override
-      public Feed load(FeedSource feedSource) {
-        return FeedBuilder.builder().name("test feed").items(List.of()).build();
+      public Feed retrieve(FeedSource feedSource) {
+        return feed;
       }
 
       @Override
-      public void save(Feed feed) {
-
+      public Feed save(Feed feed) {
+        return feed;
       }
     };
 

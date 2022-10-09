@@ -1,4 +1,4 @@
-package in.stonecolddev.hpg.configuration;
+package in.stonecolddev.hpg.feed;
 
 import java.net.URI;
 

@@ -1,7 +1,5 @@
 package in.stonecolddev.hpg.feed;
 
-import in.stonecolddev.hpg.configuration.FeedSource;
-
 import java.io.IOException;
 import java.util.Map;
 

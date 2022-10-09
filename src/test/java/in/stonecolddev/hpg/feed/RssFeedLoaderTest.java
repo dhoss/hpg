@@ -3,7 +3,6 @@ package in.stonecolddev.hpg.feed;
 
 import com.apptasticsoftware.rssreader.Item;
 import com.apptasticsoftware.rssreader.RssReader;
-import in.stonecolddev.hpg.configuration.FeedSource;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,19 +39,24 @@ public class RssFeedLoaderTest {
   private final Item readerItem = new Item();
 
   private final FeedItem feedItem = FeedItemBuilder.builder()
-                                   .id(0)
-                                   .title("test title")
-                                   .link(URI.create(url))
-                                   .description("test description")
-                                   .published(Optional.of(now))
-                                   .build();
+                                      .id(0)
+                                      .title("test title")
+                                      .link(URI.create(url))
+                                      .description("test description")
+                                      .published(Optional.of(now))
+                                      .createdOn(now)
+                                      .build();
   private final Feed feed = FeedBuilder.builder()
                               .name("test feed")
                               .items(List.of(feedItem))
+                              .updatedOn(now)
                               .build();
 
+  private final FeedService feedService = mock(FeedService.class);
 
-  private final FeedSource feedSource = new FeedSource("test feed", URI.create(url), "rss");
+
+  private final FeedSource feedSource =
+    new FeedSource("test feed", URI.create(url), "rss");
 
   @Test
   public void loadFeed() throws IOException {
@@ -65,9 +69,9 @@ public class RssFeedLoaderTest {
 
     when(rssReader.read(url)).thenReturn(Stream.of(readerItem));
 
-    var rssFeedLoader = new RssFeedLoader(rssReader, clock);
+    var rssFeedLoader = new RssFeedLoader(rssReader, clock, feedService);
 
-    assertEquals(feed, rssFeedLoader.load(feedSource));
+    assertEquals(feed, rssFeedLoader.retrieve(feedSource));
   }
 
   @Test
@@ -80,12 +84,9 @@ public class RssFeedLoaderTest {
 
     when(rssReader.read(url)).thenReturn(Stream.of(readerItem));
 
-    var rssFeedLoader = new RssFeedLoader(rssReader, clock);
+    var rssFeedLoader = new RssFeedLoader(rssReader, clock, feedService);
     assertEquals(
-      feed.withItems(
-        List.of(
-          feedItem.withPublished(
-            Optional.empty()))),
-      rssFeedLoader.load(feedSource));
+      feed.withItems(List.of(feedItem.withPublished(Optional.empty()))),
+      rssFeedLoader.retrieve(feedSource));
   }
 }

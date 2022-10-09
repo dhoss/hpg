@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 @EnableScheduling
-@EnableTransactionManagement
 @ConfigurationPropertiesScan
 public class HpgApplication {
 

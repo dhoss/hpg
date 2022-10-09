@@ -1,7 +1,6 @@
 package in.stonecolddev.hpg.feed;
 
 
-import in.stonecolddev.hpg.configuration.FeedSource;
 import in.stonecolddev.hpg.configuration.Feeds;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -27,21 +26,22 @@ import static org.mockito.Mockito.when;
 @Tag("unit-test")
 public class DefaultFeedCacheTest {
 
-  private final Feeds feedConfiguration  = new Feeds(
-      Duration.of(1, TimeUnit.SECONDS.toChronoUnit()),
-      List.of(
-          new FeedSource(
-              "test feed", URI.create("https://stonecolddev.in"), "rss")
-      )
+  private final Feeds feedConfiguration = new Feeds(
+    Duration.of(1, TimeUnit.SECONDS.toChronoUnit()),
+    List.of(
+      new FeedSource(
+        "test feed", URI.create("https://stonecolddev.in"), "rss")
+    )
   );
 
   private final FeedLoaderRegistry feedLoaderRegistry = mock(FeedLoaderRegistry.class);
 
-  private final RssFeedLoader rssFeedLoader = mock(RssFeedLoader.class);
+  private final FeedLoader feedLoader = mock(FeedLoader.class);
 
 
   @Test
-  public void list() throws IOException {
+  public void all() throws IOException {
+
     var feed = FeedBuilder.builder()
                  .name("test feed")
                  .items(
@@ -57,8 +57,9 @@ public class DefaultFeedCacheTest {
 
     var feedSource = feedConfiguration.feedSources().get(0);
 
-    when(feedLoaderRegistry.get("rss")).thenReturn(rssFeedLoader);
-    when(rssFeedLoader.load(feedConfiguration.feedSources().get(0))).thenReturn(feed);
+    when(feedLoaderRegistry.get("rss")).thenReturn(feedLoader);
+    when(feedLoader.retrieve(feedConfiguration.feedSources().get(0))).thenReturn(feed);
+    when(feedLoader.load(feedSource)).thenReturn(feed);
 
     var feedCache = new DefaultFeedCache(feedLoaderRegistry, feedConfiguration);
     assertEquals(Map.of(feedSource, feed), feedCache.all());

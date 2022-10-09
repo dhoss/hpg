@@ -1,7 +1,6 @@
 package in.stonecolddev.hpg.feed;
 
 import com.apptasticsoftware.rssreader.RssReader;
-import in.stonecolddev.hpg.configuration.FeedSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -22,13 +21,16 @@ public class RssFeedLoader implements FeedLoader {
 
   private final RssReader rssReader;
 
-  public RssFeedLoader(RssReader rssReader, Clock clock) {
+  private final FeedService feedService;
+
+  public RssFeedLoader(RssReader rssReader, Clock clock, FeedService feedService) {
     this.rssReader = rssReader;
     this.clock = clock;
+    this.feedService = feedService;
   }
 
   // TODO: ideally this will be enqueued and then called by a job executor
-  public Feed load(FeedSource feedSource) throws IOException {
+  public Feed retrieve(FeedSource feedSource) throws IOException {
     log.info("Loading feed {}", feedSource.name());
     return FeedBuilder.builder()
              .name(feedSource.name())
@@ -52,8 +54,8 @@ public class RssFeedLoader implements FeedLoader {
              .build();
   }
 
-  public void save(Feed feed) {
-
+  public Feed save(Feed feed) {
+    return feedService.save(feed);
   }
 
   private Optional<OffsetDateTime> safeDateTime(Optional<String> dateTimeString) {
