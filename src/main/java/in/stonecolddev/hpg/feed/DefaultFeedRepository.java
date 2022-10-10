@@ -10,7 +10,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.stringtemplate.v4.ST;
 
-import java.lang.reflect.Type;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.Optional;
@@ -82,7 +81,7 @@ public class DefaultFeedRepository implements FeedRepository {
       );
   }
 
-    private <T> Optional<T> query(Select select, Map<String, ?> sqlParameters, Class<T> type) {
+  private <T> Optional<T> query(Select select, Map<String, ?> sqlParameters, Class<T> type) {
     var selectTemplate = new ST(select.toString());
     return jdbcTemplate.query(
       selectTemplate.render(),
@@ -91,7 +90,6 @@ public class DefaultFeedRepository implements FeedRepository {
         .newInstance()
         .addKeys("id")
         .newRowMapper(type)
-    //  feedRowMapper
     ).stream().findFirst();
   }
 
