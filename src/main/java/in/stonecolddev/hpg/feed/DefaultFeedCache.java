@@ -39,6 +39,7 @@ public class DefaultFeedCache implements FeedCache {
                          .build(this::populate);
   }
 
+  // TODO: try out virtual threads wherever populate ends up getting called: https://openjdk.org/jeps/425
   @Override
   public Feed populate(FeedSource feedSource) {
     // TODO: Future that returns feed data from database after it's populated from feed sources
