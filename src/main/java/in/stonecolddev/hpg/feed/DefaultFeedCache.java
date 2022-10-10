@@ -33,8 +33,7 @@ public class DefaultFeedCache implements FeedCache {
     this.feedService = feedService;
 
     log.info("Populating feed cache");
-    // TODO: caching should load from the db
-    //       a scheduled job should refresh the db at an interval so HTTP calls are minimal
+
     this.cache = Caffeine.newBuilder()
                          .expireAfterAccess(feedConfiguration.cacheExpire())
                          .build(this::populate);
@@ -44,6 +43,8 @@ public class DefaultFeedCache implements FeedCache {
   public Feed populate(FeedSource feedSource) {
     // TODO: Future that returns feed data from database after it's populated from feed sources
     return feedService.find(feedSource.name())
+             // TODO: don't die here unless we've actually hit a problem
+             //       poll until feed loading has completed and then return
              .orElseThrow(
                () -> new IllegalArgumentException(
                  String.format("Can't find feed: %s", feedSource.name())));

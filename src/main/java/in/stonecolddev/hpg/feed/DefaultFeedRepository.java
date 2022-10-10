@@ -40,6 +40,7 @@ public class DefaultFeedRepository implements FeedRepository {
     log.info("Saving feed {}", feed.name());
 
     var keyHolder = new GeneratedKeyHolder();
+    // TODO: update() a la query()
     jdbcTemplate.update(
       """
       insert into feeds(name)
@@ -57,6 +58,7 @@ public class DefaultFeedRepository implements FeedRepository {
 
   public Optional<Feed> find(Integer id) {
 
+    // TODO: replace with query()
     return jdbcTemplate.query(
       """
       select * from feeds
@@ -88,7 +90,7 @@ public class DefaultFeedRepository implements FeedRepository {
       sqlParameters,
       JdbcTemplateMapperFactory
         .newInstance()
-        .addKeys("id")
+        .addKeys("id") // TODO: make configurable
         .newRowMapper(type)
     ).stream().findFirst();
   }
