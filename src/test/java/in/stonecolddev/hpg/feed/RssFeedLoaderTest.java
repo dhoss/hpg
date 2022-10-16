@@ -52,7 +52,7 @@ public class RssFeedLoaderTest {
                               .updatedOn(now)
                               .build();
 
-  private final FeedService feedService = mock(FeedService.class);
+  private final FeedRepository feedRepository = mock(FeedRepository.class);
 
 
   private final FeedSource feedSource =
@@ -69,7 +69,7 @@ public class RssFeedLoaderTest {
 
     when(rssReader.read(url)).thenReturn(Stream.of(readerItem));
 
-    var rssFeedLoader = new RssFeedLoader(rssReader, clock, feedService);
+    var rssFeedLoader = new RssFeedLoader(rssReader, clock, feedRepository);
 
     assertEquals(feed, rssFeedLoader.retrieve(feedSource));
   }
@@ -84,7 +84,7 @@ public class RssFeedLoaderTest {
 
     when(rssReader.read(url)).thenReturn(Stream.of(readerItem));
 
-    var rssFeedLoader = new RssFeedLoader(rssReader, clock, feedService);
+    var rssFeedLoader = new RssFeedLoader(rssReader, clock, feedRepository);
     assertEquals(
       feed.withItems(List.of(feedItem.withPublished(Optional.empty()))),
       rssFeedLoader.retrieve(feedSource));

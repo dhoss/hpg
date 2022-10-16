@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.stringtemplate.v4.ST;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -57,16 +58,17 @@ public class DefaultFeedRepository implements FeedRepository {
   }
 
   public Optional<Feed> find(Integer id) {
-
-    // TODO: replace with query()
-    return jdbcTemplate.query(
-      """
-      select * from feeds
-      where id = :id
-      limit 1
-      """,
-      Map.of("id", id),
-      feedRowMapper).stream().findFirst();
+    return
+      query(
+        SelectBuilder.builder()
+          .select("*")
+          .from("feeds")
+          .where("id = :id")
+          .limit(1)
+          .build(),
+        Map.of("id", id),
+        Feed.class
+      );
   }
 
   public Optional<Feed> find(String name) {
@@ -83,7 +85,21 @@ public class DefaultFeedRepository implements FeedRepository {
       );
   }
 
+  // TODO: pagination
+  public List<Feed> all() {
+    return
+      query(
+        SelectBuilder.builder()
+          .select("*")
+          .from("feeds")
+          .build(),
+        Feed.class
+      );
+  }
+
+  // TODO: move this to its own namespace
   private <T> Optional<T> query(Select select, Map<String, ?> sqlParameters, Class<T> type) {
+    // TODO: make final/memoized
     var selectTemplate = new ST(select.toString());
     return jdbcTemplate.query(
       selectTemplate.render(),
@@ -95,4 +111,15 @@ public class DefaultFeedRepository implements FeedRepository {
     ).stream().findFirst();
   }
 
+  private <T> List<T> query(Select select, Class<T> type) {
+    // TODO: make final/memoized
+    var selectTemplate = new ST(select.toString());
+    return jdbcTemplate.query(
+      selectTemplate.render(),
+      JdbcTemplateMapperFactory
+        .newInstance()
+        .addKeys("id") // TODO: make configurable
+        .newRowMapper(type)
+    ).stream().toList();
+  }
 }

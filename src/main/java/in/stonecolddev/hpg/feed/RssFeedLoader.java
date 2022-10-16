@@ -22,12 +22,12 @@ public class RssFeedLoader implements FeedLoader {
 
   private final RssReader rssReader;
 
-  private final FeedService feedService;
+  private final FeedRepository feedRepository;
 
-  public RssFeedLoader(RssReader rssReader, Clock clock, FeedService feedService) {
+  public RssFeedLoader(RssReader rssReader, Clock clock, FeedRepository feedRepository) {
     this.rssReader = rssReader;
     this.clock = clock;
-    this.feedService = feedService;
+    this.feedRepository = feedRepository;
   }
 
   // TODO: ideally this will be enqueued and then called by a job executor
@@ -56,7 +56,7 @@ public class RssFeedLoader implements FeedLoader {
   }
 
   public Feed save(Feed feed) throws SQLException {
-    return feedService.save(feed);
+    return feedRepository.save(feed);
   }
 
   private Optional<OffsetDateTime> safeDateTime(Optional<String> dateTimeString) {

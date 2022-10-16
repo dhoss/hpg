@@ -15,7 +15,7 @@
     <name>hpg</name>
     <description>newsfeed aggregator</description>
     <properties>
-        <java.version>18</java.version>
+        <java.version>19</java.version>
         <record-builder.version>34</record-builder.version>
     </properties>
 
@@ -172,13 +172,18 @@
                             <version>${record-builder.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <source>18</source>
-                    <target>18</target>
+                    <release>${java.version}</release>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <enablePreview>true</enablePreview>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>--enable-preview</jvmArguments>
+                </configuration>
             </plugin>
         </plugins>
     </build>

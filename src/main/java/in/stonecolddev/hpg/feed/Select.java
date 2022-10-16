@@ -3,6 +3,7 @@ package in.stonecolddev.hpg.feed;
 import io.soabase.recordbuilder.core.RecordBuilder;
 import org.stringtemplate.v4.ST;
 
+// TODO: move this to its own namespace
 // TODO: order by etc
 @RecordBuilder
 public record Select(

@@ -1,6 +1,7 @@
 package in.stonecolddev.hpg.feed;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 public interface FeedRepository {
@@ -10,4 +11,6 @@ public interface FeedRepository {
   Optional<Feed> find(Integer id);
 
   Optional<Feed> find(String name);
+
+  List<Feed> all();
 }
