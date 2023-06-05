@@ -16,14 +16,14 @@
     <description>newsfeed aggregator</description>
     <properties>
         <java.version>18</java.version>
-        <record-builder.version>34</record-builder.version>
+        <record-builder.version>35</record-builder.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jooq</artifactId>
-            <version>2.7.4</version>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>io.soabase.record-builder</groupId>
@@ -34,17 +34,17 @@
         <dependency>
             <groupId>io.pebbletemplates</groupId>
             <artifactId>pebble-spring-boot-starter</artifactId>
-            <version>3.1.5</version>
+            <version>3.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.apptasticsoftware</groupId>
             <artifactId>rssreader</artifactId>
-            <version>3.1.0</version>
+            <version>3.4.4</version>
         </dependency>
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>3.1.1</version>
+            <version>3.1.5</version>
         </dependency>
         <dependency>
             <groupId>org.jacoco</groupId>
@@ -55,47 +55,48 @@
 		<dependency>
             <groupId>com.google.auto.value</groupId>
             <artifactId>auto-value-annotations</artifactId>
-            <version>1.9</version>
+            <version>1.10.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-quartz</artifactId>
+            <version>3.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>1.17.3</version>
+            <version>1.17.6</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>1.17.3</version>
+            <version>1.17.6</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
-            <version>1.17.3</version>
+            <version>1.17.6</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>4.8.0</version>
+            <version>5.2.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>4.8.0</version>
+            <version>5.2.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.9.0</version>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -106,37 +107,44 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
+            <version>5.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.zalando</groupId>
             <artifactId>problem-spring-web</artifactId>
-            <version>0.27.0</version>
+            <version>0.28.0-RC.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jdbc</artifactId>
+            <version>3.0.4</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <version>42.5.4</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>3.0.4</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>3.1.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
