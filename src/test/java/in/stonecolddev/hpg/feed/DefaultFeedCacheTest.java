@@ -42,27 +42,28 @@ public class DefaultFeedCacheTest {
 
   @Test
   public void list() throws IOException {
-    var feed = new Feed(
-        "test feed",
-        List.of(
-            FeedItemBuilder.builder()
-                           .id(1)
-                .title("test title")
-                .description("test description")
-                .link(URI.create("https://stonecolddev.in/blog/url"))
-                .indexed(OffsetDateTime.now())
-                .published(Optional.of(OffsetDateTime.now()))
-                .build()
-        )
-    );
+     var feed = new Feed(
+         "test feed",
+         List.of(
+             FeedItemBuilder.builder()
+                            .id(1)
+                 .title("test title")
+                 .description("test description")
+                 .link(URI.create("https://stonecolddev.in/blog/url"))
+                 .indexed(OffsetDateTime.now())
+                 .published(Optional.of(OffsetDateTime.now()))
+                 .build()
+         )
+     );
 
-    var feedSource = feedConfiguration.feedSources().get(0);
+     var feedSource = feedConfiguration.feedSources().get(0);
 
-    when(feedLoaderRegistry.load("rss")).thenReturn(rssFeedLoader);
-    when(rssFeedLoader.loadFeed(feedConfiguration.feedSources().get(0))).thenReturn(feed);
+     when(feedLoaderRegistry.load("rss")).thenReturn(rssFeedLoader);
+     when(rssFeedLoader.loadFeed(feedConfiguration.feedSources().get(0))).thenReturn(feed);
 
-    var feedCache = new DefaultFeedCache(feedLoaderRegistry, feedConfiguration);
-    assertEquals(Map.of(feedSource, feed), feedCache.list());
-    assertEquals(feed, feedCache.loadFeed(feedSource));
+     var feedCache = new DefaultFeedCache(feedLoaderRegistry, feedConfiguration);
+     assertEquals(Map.of(feedSource, feed), feedCache.list());
+     assertEquals(feed, feedCache.loadFeed(feedSource));
   }
+
 }
