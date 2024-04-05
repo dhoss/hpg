@@ -28,7 +28,6 @@ public class DefaultFeedCache implements FeedCache {
     log.info("Populating feed cache");
     // TODO: caching should load from the db
     //       a scheduled job should refresh the db at an interval so HTTP calls are minimal
-    log.debug("**** CACHE EXPIRE {}", feedConfiguration.cacheExpire());
     this.cache = Caffeine.newBuilder()
                          .expireAfterWrite(feedConfiguration.cacheExpire())
                          .build(this::loadFeed);
