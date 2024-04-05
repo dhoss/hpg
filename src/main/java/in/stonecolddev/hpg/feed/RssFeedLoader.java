@@ -24,6 +24,23 @@ public class RssFeedLoader implements FeedLoader {
 
   private final RssReader rssReader;
 
+
+  // TODO: write tests for this
+  // Thu, 01 Sep 2022 08:25:29 +0000
+  // EEE, dd MMM yyyy HH:mm:ss Z
+  // Fri, 5 Apr 2024 16:21:49 +0000
+  // EEE  d MMM yyyy HH:mm:ss Z
+  // 2024-02-20T09:19:00.005Z
+  //
+  // 2022-10-06T12:18:00.004+01:00
+  private final DateTimeFormatterBuilder dateTimeFormatterBuilder =
+      new DateTimeFormatterBuilder()
+          .append(
+              DateTimeFormatter.ofPattern(
+                  "[yyyy-MM-dd'T'HH:mm:ss.SSSXXX]" +
+                  "[EEE, dd MMM yyyy HH:mm:ss Z]"  +
+                  "[EEE, d MMM yyyy HH:mm:ss Z]"));
+
   public RssFeedLoader(
     RssReader rssReader,
     Clock clock
@@ -57,23 +74,8 @@ public class RssFeedLoader implements FeedLoader {
   }
 
   private Optional<OffsetDateTime> safeDateTime(Optional<String> dateTimeString) {
-    // Thu, 01 Sep 2022 08:25:29 +0000
-    // EEE, dd MMM yyyy HH:mm:ss Z
-    // Fri, 5 Apr 2024 16:21:49 +0000
-    // EEE  d MMM yyyy HH:mm:ss Z
-    // 2024-02-20T09:19:00.005Z
-    //
-    // 2022-10-06T12:18:00.004+01:00
-    var dateTimeFormatterBuilder = new DateTimeFormatterBuilder()
-        .append(
-            DateTimeFormatter.ofPattern(
-                "[yyyy-MM-dd'T'HH:mm:ss.SSSXXX]" +
-                "[EEE, dd MMM yyyy HH:mm:ss Z]"  +
-                "[EEE, d MMM yyyy HH:mm:ss Z]"));
     try {
-      var dt = dateTimeString.map(d -> OffsetDateTime.parse(d, dateTimeFormatterBuilder.toFormatter()));
-      log.debug("**** DT {} -> {}", dateTimeString.get(), dt);
-      return dt;
+      return dateTimeString.map(d -> OffsetDateTime.parse(d, dateTimeFormatterBuilder.toFormatter()));
     } catch (java.time.format.DateTimeParseException e) {
       log.error("Unable to parse String to OffsetDateTime: {}", e.getMessage());
       return Optional.empty();

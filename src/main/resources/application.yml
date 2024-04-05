@@ -19,7 +19,6 @@ pebble:
   cache: true
 
 feeds:
-  cacheExpire: PT1h # default to 1 hour
   feedSources:
     -
       name: hackernews
