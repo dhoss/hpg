@@ -20,7 +20,6 @@ public class FeedController {
 
   @GetMapping("/")
   public String index(Model model) {
-    log.debug("***** INDEX");
     // TODO: caching headers
     model.addAttribute("feeds", feedCache.list());
     return "index";
