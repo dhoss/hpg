@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-// TODO: tests
 @Component
 public class DefaultFeedCache implements FeedCache {
 
@@ -25,9 +24,8 @@ public class DefaultFeedCache implements FeedCache {
   public DefaultFeedCache(FeedLoaderRegistry feedLoaderRegistry, Feeds feedConfiguration) {
     this.feedLoaderRegistry = feedLoaderRegistry;
     this.feedConfiguration = feedConfiguration;
+
     log.info("Populating feed cache");
-    // TODO: caching should load from the db
-    //       a scheduled job should refresh the db at an interval so HTTP calls are minimal
     this.cache = Caffeine.newBuilder()
                          .expireAfterWrite(feedConfiguration.cacheExpire())
                          .build(this::loadFeed);
@@ -38,8 +36,7 @@ public class DefaultFeedCache implements FeedCache {
   }
 
   public Map<FeedSource, Feed> list() {
-    // TODO: limit/sort by, default to sort by date desc
-    //        add configuration to allow for filtering anything older than a certain date
+    // TODO: add configuration to allow for filtering anything older than a certain date
     return cache.getAll(feedConfiguration.feedSources());
   }
 }
