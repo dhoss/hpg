@@ -15,7 +15,7 @@
                     {% for feedItem in feed.value.items %}
                     <li>
                         <a href="{{feedItem.link}}">{{ feedItem.title }}</a> - published on {{feedItem.published.orElse("(no date available)")}}
-                        <ul><li>{{ feedItem.description }}</li></ul>
+                        <ul><li>{{ feedItem.description | raw }}</li></ul>
                     </li>
                     {% endfor %}
                 </ul>
