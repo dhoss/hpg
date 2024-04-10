@@ -13,6 +13,6 @@ public interface FeedCache {
 
   default Feed loadFeed(FeedSource feedSource) throws IOException {
     return feedLoaderRegistry().load(feedSource.type())
-                               .loadFeed(feedSource); // TODO: I think we want an additional call here to a persist() method or something
+                               .loadFeed(feedSource);
   }
 }

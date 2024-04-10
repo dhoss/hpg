@@ -15,11 +15,22 @@
     <name>hpg</name>
     <description>newsfeed aggregator</description>
     <properties>
+        <!-- TODO: upgrade java version in POM/sdkman -->
         <java.version>18</java.version>
         <record-builder.version>34</record-builder.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.14.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.17.2</version>
+        </dependency>
         <dependency>
             <groupId>io.soabase.record-builder</groupId>
             <artifactId>record-builder-processor</artifactId>

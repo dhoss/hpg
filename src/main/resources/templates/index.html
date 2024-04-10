@@ -10,15 +10,26 @@
         <ul>
           {% for feed in feeds %}
             <li>
-                {{ feed.key.name }}
+                <!-- FEED START -->
+                <div>{{ feed.key.name }}</div>
                 <ul>
                     {% for feedItem in feed.value.items %}
+                    <!-- FEED ITEM START -->
                     <li>
-                        <a href="{{feedItem.link}}">{{ feedItem.title }}</a> - published on {{feedItem.published.orElse("(no date available)")}}
-                        <ul><li>{{ feedItem.description | raw }}</li></ul>
+                        <!-- FEED ITEM TITLE -->
+                        <div><a href="{{feedItem.link}}">{{ feedItem.title }}</a> - published on {{feedItem.published.orElse("(no date available)")}}</div>
+                        <!-- FEED ITEM DESCRIPTION -->
+                        <ul>
+                            <li>
+                            <div>{{ feedItem.description | trim | raw  }}</div>
+                            </li>
+                        </ul>
+                        <!-- END FEED ITEM DESCRIPTION -->
                     </li>
+                    <!-- END FEED ITEM -->
                     {% endfor %}
                 </ul>
+                <!-- END FEED -->
             </li>
           {% endfor %}
         </ul>

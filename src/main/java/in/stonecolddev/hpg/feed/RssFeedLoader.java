@@ -2,6 +2,9 @@ package in.stonecolddev.hpg.feed;
 
 import com.apptasticsoftware.rssreader.RssReader;
 import in.stonecolddev.hpg.configuration.FeedSource;
+import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -63,17 +66,21 @@ public class RssFeedLoader implements FeedLoader {
                          () -> new IllegalArgumentException("No title provided")))
                        .link(URI.create(i.getLink().orElseThrow(
                          () -> new IllegalArgumentException("No link provided"))))
-                       /* TODO: enable option to detect URL */
                        .description(
-                         i.getDescription().orElse("(no description provided)"))
+                         maybeCleanText(i.getDescription()).orElse("(no description provided)"))
                        .indexed(OffsetDateTime.now(clock))
-                       .published(safeDateTime(i.getPubDate()))
+                       .published(maybeSafeDateTime(i.getPubDate()))
                        .build())
                  .collect(Collectors.toList()))
              .build();
   }
 
-  private Optional<OffsetDateTime> safeDateTime(Optional<String> dateTimeString) {
+  private Optional<String> maybeCleanText(Optional<String> text) {
+    return text.map(t -> StringUtils.truncate(t, 300) + "...") // TODO: make description length configurable
+               .map(t -> Jsoup.clean(t, Safelist.basic().removeTags("ul", "ol", "li")));
+  }
+
+  private Optional<OffsetDateTime> maybeSafeDateTime(Optional<String> dateTimeString) {
     try {
       return dateTimeString.map(d -> OffsetDateTime.parse(d, dateTimeFormatterBuilder.toFormatter()));
     } catch (java.time.format.DateTimeParseException e) {
