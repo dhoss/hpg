@@ -1,38 +1,92 @@
-<html>
+<!DOCTYPE html>
+<html lang="">
     <head>
         <title>HPG Uplink</title>
+        <script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
+        <script>
+            htmx.defineExtension('json-enc-as-list-of-map', {
+              onEvent: function (name, evt) {
+                if (name === "htmx:configRequest") {
+                  evt.detail.headers['Content-Type'] = "application/json"
+                }
+              },
+              encodeParameters: function(xhr, parameters, elt) {
+                console.log("PARAMETERS " + JSON.stringify(parameters));
+                const body = []
+                for (key of Object.keys(parameters)) {
+                  value = parameters[key]
+                  console.log("KEY " + key);
+                  console.log("VALUE " + value);
+                  if (Array.isArray(value)) {
+                    for (v in value) {
+                      body.push({ [key]: value[v] });
+                    }
+                  } else {
+                    body.push({ [key]: value });
+                    console.log("BODY IN LOOP " + JSON.stringify(body));
+                  }
+                }
+                console.log("BODY " + JSON.stringify(body));
+                return (JSON.stringify(body))
+              }
+            })
+        </script>
+        <style>
+            #marked-as-seen.htmx-settling {
+              opacity: 100;
+            }
+
+            #marked-as-seen {
+              background: #E1F0DA;
+              opacity: 0;
+              transition: opacity 3s ease-out;
+            }
+        </style>
     </head>
     <body>
       <div>Feeds</div>
       <div>
+          <form id="feed-urls"
+                hx-post="/feed/seen"
+                hx-swap="outerHTML settle:3s"
+                hx-target="#marked-as-seen"
+                hx-ext="json-enc-as-list-of-map">
           <!-- TODO: this presentation needs to be fixed
                 the description key is pretty variable, can contain HTML and gets gnarly when it's long -->
-        <ul>
-          {% for feed in feeds %}
-            <li>
-                <!-- FEED START -->
-                <div>{{ feed.key.name }}</div>
-                <ul>
-                    {% for feedItem in feed.value.items %}
-                    <!-- FEED ITEM START -->
-                    <li>
-                        <!-- FEED ITEM TITLE -->
-                        <div><a href="{{feedItem.link}}">{{ feedItem.title }}</a> - published on {{feedItem.published.orElse("(no date available)")}}</div>
-                        <!-- FEED ITEM DESCRIPTION -->
-                        <ul>
-                            <li>
-                            <div>{{ feedItem.description | trim | raw  }}</div>
-                            </li>
-                        </ul>
-                        <!-- END FEED ITEM DESCRIPTION -->
-                    </li>
-                    <!-- END FEED ITEM -->
-                    {% endfor %}
-                </ul>
-                <!-- END FEED -->
-            </li>
-          {% endfor %}
-        </ul>
+              <ul>
+                {% for feed in feeds %}
+                  <li>
+                      <!-- FEED START -->
+                      <div>{{ feed.key.name }}</div>
+                      <ul>
+                          {% for feedItem in feed.value.items %}
+                          <!-- FEED ITEM START -->
+                          <li>
+                              <!-- FEED ITEM TITLE -->
+                              <div>
+                                  <a href="{{feedItem.link}}">{{ feedItem.title }}</a> - published on {{feedItem.published.orElse("(no date available)")}}
+                                  <label>
+                                      <input type="checkbox" name="url" value="{{ feedItem.link }}" />
+                                  </label>
+                              </div>
+                              <!-- FEED ITEM DESCRIPTION -->
+                              <ul>
+                                  <li>
+                                  <div>{{ feedItem.description | trim | raw  }}</div>
+                                  </li>
+                              </ul>
+                              <!-- END FEED ITEM DESCRIPTION -->
+                          </li>
+                          <!-- END FEED ITEM -->
+                          {% endfor %}
+                      </ul>
+                      <!-- END FEED -->
+                  </li>
+                {% endfor %}
+              </ul>
+              <button type="submit">Mark as seen</button>
+          </form>
+          <div id="marked-as-seen"></div>
       </div>
     </body>
 </html>
