@@ -55,6 +55,7 @@ public class RssFeedLoaderTest {
 
   private final FeedSource feedSource = new FeedSource("test feed", URI.create(url), "rss");
 
+  // TODO: fix rss tests
   @Test
   public void loadFeed() throws IOException {
 
