@@ -32,6 +32,7 @@ public class FeedApiController {
 
   @PostMapping("/feed/seen")
   public HttpEntity<List<MarkUrlAsSeen>> markAsSeen(@RequestBody List<MarkUrlAsSeen> urls) {
+    // TODO: write our own method for upserting instead of using saveAll
     feedRepository.saveAll(
         urls.stream().map(this::fromMarkUrlAsSeen)
             .collect(Collectors.toList()));
